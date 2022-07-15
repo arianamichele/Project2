@@ -1,85 +1,36 @@
 {
-  
   "devDependencies": {
-  
-    
-  "nodemon": "^2.0.19"
-  
+    "nodemon": "^2.0.19"
   },
-  
   "name": "project2",
-  
   "description": "USER STORY   1. I want to open the home page to view recipes 2. I want to be able to submit a recipe     - new Schema     - create a model to use     - return a newly created recipe 3. I want to be able view that recipe     - query for a single recipe     - return said recipe 4. I want to update my recipe      - query for a single recipe     - update that recipe     - return update recipe 5. I want to delete my recipe     - query for a single recipe     - delete or remove recipe     - return a success 6. I want to be able to search for recipes     - utilize a search bar 7. I want to be able to see recipes divided into categories",
-  
   "version": "1.0.0",
-  
   "main": "app.js",
-  
   "scripts": {
-  
-    
-  "test": "echo \"Error: no test specified\" && exit 1",
-  "start": "nodemon app.js"
-  
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
-  
   "repository": {
-  
-    
-  "type": "git",
-  
-    
-  "url": "git+https://github.com/arianamichele/Project2.git"
-  
+    "type": "git",
+    "url": "git+https://github.com/arianamichele/Project2.git"
   },
-  
   "author": "Ariana Briceno",
-  
   "license": "ISC",
-  
   "dependencies": {
-  
-    
-  "connect-flash": "^0.1.1",
-  
-    
-  "cookie-parser": "^1.4.6",
-  
-    
-  "dotenv": "^16.0.1",
-  
-    
-  "ejs": "^3.1.8",
-  
-    
-  "express": "^4.18.1",
-  
-    
-  "express-ejs-layouts": "^2.5.1",
-  
-    
-  "express-fileupload": "^1.4.0",
-  
-    
-  "express-session": "^1.17.3",
-  
-    
-  "liquid-express": "^1.0.0",
-  
-    
-  "mongodb": "^4.8.0",
-  
-    
-  "mongoose": "^6.4.4"
-  
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
+    "liquid-express": "^1.0.0",
+    "mongodb": "^4.8.0",
+    "mongoose": "^6.4.4"
   },
-  
   "bugs": {
-  
-    
-  "url": "https://github.com/arianamichele/Project2/issues"
-  
+    "url": "https://github.com/arianamichele/Project2/issues"
   },
-  
   "homepage": "https://github.com/arianamichele/Project2#readme"
 }
