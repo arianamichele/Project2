@@ -1,0 +1,15 @@
+body {
+    font-family: 'Edu VIC WA NT Beginner', cursive;
+    background-image: url("/img/i-like-food.svg");
+    background-color: bisque;
+    margin: 0;
+    padding: 0;
+}
+
+.container-xxl { 
+    max-width: 1530px;
+    margin: 0;
+    padding: 0;
+}
+
+a { color: var(--bs-dark); }
