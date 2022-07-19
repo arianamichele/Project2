@@ -9,3 +9,4 @@ db.once('open', function(){
 
 //models
 require('./Category')
+require('./Recipe')

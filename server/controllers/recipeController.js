@@ -1,13 +1,35 @@
 require('../models/database');
 const Category = require('../models/Category');
+const Recipe = require('../models/Recipe')
 
 
 // * Get /
 // * Homepage
 
 exports.homepage = async(req, res) => {
-    res.render('index', { title: 'Recipe Blog - Home'});
+    try {
+        //prevent further categories
+        const limitNumber = 5;
+        const categories = await Category.find({}).limit(limitNumber);
+        res.render('index', { title: 'Recipe Blog - Home', categories});
+    } catch (error) {
+        res.status(500).send({message: error.message || "Error Occurred"})
+    }
 }
+
+// GET categories
+
+exports.exploreCategories = async(req, res) => {
+    try {
+        //prevent further categories
+        const limitNumber = 20;
+        const categories = await Category.find({}).limit(limitNumber);
+        res.render('categories', { title: 'Recipe Blog - Categories', categories});
+    } catch (error) {
+        res.status(500).send({message: error.message || "Error Occurred"})
+    }
+}
+
 
 
 // connected and working
@@ -45,4 +67,5 @@ exports.homepage = async(req, res) => {
 //     }
 // }
 
-insertCategoryData();
+//insertCategoryData();
+
