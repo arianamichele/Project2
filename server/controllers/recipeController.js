@@ -12,9 +12,13 @@ exports.homepage = async(req, res) => {
         const limitNumber = 5;
         const categories = await Category.find({}).limit(limitNumber);
         const latest = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
-        const thai = await Recipe.find()
+        const thai = await Recipe.find({ 'category': 'Thai'}).limit(limitNumber);
+        const american = await Recipe.find({ 'category': 'American'}).limit(limitNumber);
+        const chinese = await Recipe.find({ 'category': 'Chinese'}).limit(limitNumber);
 
-        const food = { latest }; 
+
+
+        const food = { latest, thai, american, chinese }; 
         res.render('index', { title: 'Recipe Blog - Home', categories, food});
     } catch (error) {
         res.status(500).send({message: error.message || "Error Occurred"})
@@ -34,7 +38,20 @@ exports.exploreCategories = async(req, res) => {
     }
 }
 
+// GET recipe/:id
 
+exports.exploreRecipe = async(req, res) => {
+    try {
+        let recipeId = req.params.id;
+
+        const recipe = await Recipe.findById(recipeId)
+;
+
+        res.render('recipe', { title: 'Recipe Blog - Recipe', recipe });
+    } catch (error) {
+        res.status(500).send({message: error.message || "Error Occurred"})
+    }
+}
 
 // connected and working
 // async function insertCategoryData(){
