@@ -1,12 +1,7 @@
-// const mongoose = require('mongoose');
-// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true});
+const mongoose = require('mongoose')
 
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error'))
-// db.once('open', function(){
-//     console.log('connected')
-// })
+const connectDB = (mongoURI) => {
+    return mongoose.connect(mongoURI)
+}
 
-// //models
-// require('./Category')
-// require('./Recipe')
+module.exports = connectDB 

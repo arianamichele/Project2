@@ -15,9 +15,9 @@ a { color: var(--bs-dark); }
 
 /* 
 /* Category Card */
-/* .category__link {
+.category__link {
   text-align: center;
-  display: block;
+  display: block; 
   text-decoration: none;
   transition: 250ms all;
 }
@@ -44,4 +44,4 @@ a { color: var(--bs-dark); }
 .category__img img {
   width: 100%;
   object-fit: cover;
-} */ 
+} 

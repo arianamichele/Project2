@@ -1,5 +1,20 @@
+const axios =require('axios')
+
 const homepage = async (req, res) => {
-  res.render('index', {title:'Homepage'})
+  //res.render('index', {title:'Homepage'})
+
+  //query api for categories
+    
+    let catReq = await axios.get(
+     "https://www.themealdb.com/api/json/v1/1/categories.php"
+    );
+
+    let resp = { status: catReq.status, statusmsg: catReq.statusText, type: typeof catReq }
+    console.log(resp);
+  
+    const categories = catReq.data.categories
+  
+    res.render('index', {title:'Homepage', categories})
 }
 
 module.exports = {
@@ -94,35 +109,35 @@ module.exports = {
 
 //     try {
 //         await Category.insertMany([
-//             {
-//                 "name": "Thai",
-//                 "image": "thai-food.jpeg"
-//             },
-//             {
-//                 "name": "American",
-//                 "image": "american-food.jpeg"
-//             },
-//             {
-//                 "name": "Chinese",
-//                 "image": "chinese-food.jpeg"
-//             },
-//             {
-//                 "name": "Mexican",
-//                 "image": "mexican-food.jpeg"
-//             },
-//             {
-//                 "name": "Indian",
-//                 "image": "indian-food.jpeg"
-//             },
-//             {
-//                 "name": "Spanish",
-//                 "image": "spanish-food.jpeg"
-//             },
-//         ]);
-//     } catch (error) {
-//     console.log('err', + error)
+//            {
+//                "name": "Thai",
+//                "image": "thai-food.jpeg"
+//           },
+//            {
+//               "name": "American",
+//               "image": "american-food.jpeg"
+//            },
+//            {
+//                "name": "Chinese",
+//                "image": "chinese-food.jpeg"
+//            },
+//            {
+//                "name": "Mexican",
+//                "image": "mexican-food.jpeg"
+//           },
+//            {
+//                "name": "Indian",
+//                "image": "indian-food.jpeg"
+//           },
+//           {
+//               "name": "Spanish",
+//                "image": "spanish-food.jpeg"
+//            },
+//        ]);
+//    } catch (error) {
+//    console.log('err', + error)
 //     }
 // }
 
-//insertCategoryData();
+// insertCategoryData();
 
