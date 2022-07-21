@@ -15,16 +15,21 @@ app.use(express.static('public'))
 app.use(expressLayouts)
 app.set('layout', './layout/main')
 app.set('view engine', 'ejs')
-const recipeRoutes = require('./server/routes/recipe-routes')
-app.use('/', recipeRoutes)
 
+//Routes
+const recipeRoutes = require('./server/routes/recipe-routes')
+const categoryRoutes = require('./server/routes/categories')
+app.use('/', recipeRoutes)
+app.use('/categories', categoryRoutes)
+
+// Middleware
+const errorHandler = require('./server/middleware/error-handler')
+const notFound = require("./server/middleware/notFound");
+
+
+app.use(errorHandler)
+app.use(notFound);
 
 const port = process.env.PORT || 3000
 app.listen(port, ()=>console.log(`App is listening on port ${port}`)) 
 
-// const startApp = async () => {
-//     await connectDB(process.env.MONGO_URI)
-//     app.listen(port, ()=>console.log(`App is listening on port ${port}`))
-// }
-
-// startApp()

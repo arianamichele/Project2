@@ -45,3 +45,9 @@ a { color: var(--bs-dark); }
   width: 100%;
   object-fit: cover;
 } 
+
+.sub-heading{
+  width: 100%;
+  border-bottom: 2px black solid;
+
+}
