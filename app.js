@@ -7,7 +7,7 @@ const app = express()
 const expressLayouts = require('express-ejs-layouts')
 
 // DB
-//const connectDB = require('./server/db/connectDB')
+const connectDB = require('./server/db/connectDB')
 
 
 app.use(express.urlencoded({ extended: true }))
