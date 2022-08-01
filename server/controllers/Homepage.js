@@ -1,143 +1,155 @@
-const axios =require('axios')
+const axios = require('axios');
+const path = require('path')
+const Meal = require('../models/Meal');
+const User = require('../models/User');
+const { StatusCodes } = require('http-status-codes');
+const UnauthorizedError = require("../errors/unauthorized");
+const NotFoundError = require("../errors/not-found");
+
 
 const homepage = async (req, res) => {
-  //res.render('index', {title:'Homepage'})
-
-  //query api for categories
-    
+    // Query api for categories
     let catReq = await axios.get(
-     "https://www.themealdb.com/api/json/v1/1/categories.php"
+      "https://www.themealdb.com/api/json/v1/1/categories.php"
     );
 
-    // let resp = { status: catReq.status, statusmsg: catReq.statusText, type: typeof catReq }
-    // console.log(resp);
-  
-    const categories = catReq.data.categories
-  
-    res.render('index', {title:'Homepage', categories})
+  const categories = catReq.data.categories
+  const meals = await Meal.find({}).sort({_id: -1}).limit(6)
+  res.render('index', { title: 'Homepage', categories, meals })
 }
+
+
+const dashboard = async (req, res) => {
+    const userID = req.user._id
+    const user = await User.findById(userID).select('-password')
+    const userMeals = await Meal.find({createdBy: user._id})
+    res.render('dashboard', {user, userMeals})
+}
+
+const getSubmitRecipe = (req, res) => res.render('submit-recipe')
+
+const submitRecipe = async (req, res) => {
+  let imageFile
+  let uploadPath
+  let imageFilename
+  // check if any files where upload
+  if (!req.files || Object.keys(req.files).length == 0) {
+    req.flash('error_flash', 'No image was uploaded')
+    return res.redirect('/submit-recipe')
+  }
+
+  // save file to server and get filename to be saved in db
+  imageFile = req.files.image
+  imageFilename = Date.now() + imageFile.name
+  uploadPath = path.resolve('./') + '/public/uploads/' + imageFilename
+
+  imageFile.mv(uploadPath, function (err) {
+    if (err) {
+      return err
+      }
+  })
+
+  // save recipe to db
+  let meal = {
+    mealName: req.body.mealName,
+    ingredients: req.body.ingredients,
+    instructions: req.body.instructions,
+    category: req.body.category,
+    videoLink: req.body.videoLink || "",
+    image: imageFilename,
+    createdBy: req.user.id,
+  };
+
+  meal = await Meal.create(meal)
+  req.flash('success_flash', 'Meal was submitted successfully')
+  return res.redirect('dashboard')
+}
+
+
+const search = async (req, res) => {
+  let searchtext = req.body.searchtext
+  // remove whitespace
+  searchtext = searchtext.trim()
+  searchtext = searchtext.replace(/\s/g, " ");
+
+  // search in db first
+  const dbMeals = await Meal.find({$text: { $search: searchtext }})
+
+  // search Api
+  let apiMeals = await axios.get(
+    `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchtext}`
+  );
+
+  apiMeals = apiMeals.data.meals
+
+  res.render('search', { apiMeals, dbMeals, searchtext })
+}
+
+const getUserMeal = async (req, res) => {
+  const { mealID } = req.params
+  const meal = await Meal.findById(mealID)
+  if (!meal) {
+    return res.status(StatusCodes.NOT_FOUND)
+  }
+
+  res.render('user-meal', {meal})
+}
+
+
+const deleteMeal = async (req, res) => {
+  const { mealID } = req.params
+  const meal = await Meal.findByIdAndDelete(mealID)
+  res.redirect('/dashboard')
+}
+
+const getUpdatePage = async (req, res) => {
+  const { mealID } = req.params
+  const meal = await Meal.findById(mealID)
+
+  // check if meal exists
+  if (!meal) {
+    throw new NotFoundError('Sorry that meal does not exist.')
+  }
+
+  // check if current user owns the post
+  if (req.user.id != meal.createdBy) {
+    throw new UnauthorizedError('Sorry you do not have access to that post')
+  }
+  
+  res.render('update-meal', { title:'Update Meal', meal })
+}
+
+const updateMeal = async (req, res) => {
+  const { mealID } = req.params;
+  const { mealName, instructions, ingredients, category, videoLink } = req.body
+  
+  let meal = await Meal.findById(mealID);
+  // check all fields are provided
+  if (!mealName || !instructions || !ingredients || !category || !videoLink) {
+    req.flash('error_flash', 'Please fill all fields')
+    return res.redirect(`/user/meal/edit/${mealID}`);
+  }
+  meal.mealName = mealName
+  meal.instructions = instructions
+  meal.ingredients = ingredients
+  meal.category = category
+  meal.videoLink = videoLink
+
+  // Save update to db
+  meal = await meal.save()
+  req.flash('success_flash', 'Meal was Updated')
+  return res.redirect('/dashboard')
+}
+
 
 module.exports = {
   homepage,
+  dashboard,
+  getSubmitRecipe,
+  submitRecipe,
+  search,
+  getUserMeal,
+  deleteMeal,
+  getUpdatePage,
+  updateMeal
 }
-
-
-// * Get /
-// * Homepage
-
-// exports.homepage = async(req, res) => {
-//     try {
-//         //prevent further categories
-//         const limitNumber = 5;
-//         const categories = await Category.find({}).limit(limitNumber);
-//         const latest = await Recipe.find({}).sort({_id: -1}).limit(limitNumber);
-//         const thai = await Recipe.find({ 'category': 'Thai'}).limit(limitNumber);
-//         const american = await Recipe.find({ 'category': 'American'}).limit(limitNumber);
-//         const chinese = await Recipe.find({ 'category': 'Chinese'}).limit(limitNumber);
-
-
-
-//         const food = { latest, thai, american, chinese }; 
-//         res.render('index', { title: 'Recipe Blog - Home', categories, food});
-//     } catch (error) {
-//         res.status(500).send({message: error.message || "Error Occurred"})
-//     }
-// }
-
-// //GET categories
-// exports.exploreCategories = async(req, res) => {
-//     try {
-//       const limitNumber = 20;
-//       const categories = await Category.find({}).limit(limitNumber);
-//       res.render('categories', { title: 'Cooking Blog - Categoreis', categories } );
-//     } catch (error) {
-//       res.satus(500).send({message: error.message || "Error Occured" });
-//     }
-//   } 
-  
-  
-//   // Get Categories by id
-//   exports.exploreCategoriesById = async(req, res) => { 
-//     try {
-//       let categoryId = req.params.id;
-//       const limitNumber = 20;
-//       const categoryById = await Recipe.find({ 'category': categoryId }).limit(limitNumber);
-//       res.render('categories', { title: 'Cooking Blog - Categoreis', categoryById } );
-//     } catch (error) {
-//       res.satus(500).send({message: error.message || "Error Occured" });
-//     }
-//   } 
-
-// // GET recipe/:id
-
-// exports.exploreRecipe = async(req, res) => {
-//     try {
-//         let recipeId = req.params.id;
-
-//         const recipe = await Recipe.findById(recipeId)
-// ;
- 
-//        res.render('recipe', { title: 'Recipe Blog - Recipe', recipe });
-//     } catch (error) {
-//         res.status(500).send({message: error.message || "Error Occurred"})
-//     }
-// }
-
-// // post
-
-// //search
-
-// exports.searchRecipe = async(req, res) => {
-//     try {
-//       let searchTerm = req.body.searchTerm;
-//       let recipe = await Recipe.find( { $text: { $search: searchTerm, $diacriticSensitive: true } });
-//       res.render('search', { title: 'Cooking Blog - Search', recipe } );
-//     } catch (error) {
-//       res.satus(500).send({message: error.message || "Error Occured" });
-//     }
-    
-//   }
-
-//   exports.submitRecipe = async(req, res) => {
-//     // const infoErrorsObj = req.flash('infoErrors');
-//     // const infoSubmitObj = req.flash('infoSubmit');
-//     res.render('submit-recipe', { title: 'Cooking Blog - Submit Recipe'  } );
-//   }
-
-// connected and working
-// async function insertCategoryData(){
-
-//     try {
-//         await Category.insertMany([
-//            {
-//                "name": "Thai",
-//                "image": "thai-food.jpeg"
-//           },
-//            {
-//               "name": "American",
-//               "image": "american-food.jpeg"
-//            },
-//            {
-//                "name": "Chinese",
-//                "image": "chinese-food.jpeg"
-//            },
-//            {
-//                "name": "Mexican",
-//                "image": "mexican-food.jpeg"
-//           },
-//            {
-//                "name": "Indian",
-//                "image": "indian-food.jpeg"
-//           },
-//           {
-//               "name": "Spanish",
-//                "image": "spanish-food.jpeg"
-//            },
-//        ]);
-//    } catch (error) {
-//    console.log('err', + error)
-//     }
-// }
-
-// insertCategoryData();
-
