@@ -14,7 +14,7 @@ const passport = require("passport");
 
 router.route("/login").get(isLoggedIn, getLoginPage).post(loginUser(passport));
 router.route("/register").get(isLoggedIn, getRegisterPage).post(registerUser);
-router.route("/logout").delete(logoutUser);
+router.route("/logout").get(logoutUser);
 router.route('/auth/google').get(googleSignin(passport))
 router.route("/auth/google/callback").get(googleSigninCallback(passport));
 
