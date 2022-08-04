@@ -1,7 +1,18 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const connectDB = (mongoURI) => {
-    return mongoose.connect(mongoURI)
-}
+// Fire off the connection to Mongo DB
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+
+mongoose.connection.on('connected', () => {
+  console.log(`Mongoose connected to ${mongoose.connection.host}:${mongoose.connection.port}`);
+});
+
+mongoose.connection.on("error", (err) => {
+  console.log("Could not connect to MongoDB!", err);
+});
 
 module.exports = connectDB
