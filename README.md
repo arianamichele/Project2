@@ -51,6 +51,6 @@ SCHEMA: (model)
     - ** add timestamps as true for best practice
 
 STRETCH GOALS:
-    - give user the ability to upload their own images
-        - (Multer)
-    - 
+    - give user the ability to upload their own images and/or videos
+        - created areas, but not functioning
+    - get google auth fully functional to allow users to login with google credentials
