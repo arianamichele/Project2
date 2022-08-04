@@ -73,7 +73,7 @@ ___
 | New     | /register   | CREATE     | Creates new user entry                |
 | Create  | /logout     | POST       | Logs out user, redirectss back to homepage |
 ---
-######STRETCH GOALS:
+###### STRETCH GOALS:
  - give users the ability to leave reviews on recipes
  - give users the ability to add other's recipes to their dashboard
  - give user the ability to upload their own images and/or videos
