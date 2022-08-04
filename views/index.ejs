@@ -1,3 +1,4 @@
+<!-- HOME page -->
 <div class="row flex-lg-row-reverse align-items-center g-5 py-4 mb-4">
   <div class="col-12 col-lg-6">
     <img src="/img/hero-image.jpeg" width="607" height="510" class="d-block mx-lg-auto img-fluid" loading="lazy" alt="Recipe Blog">
@@ -5,51 +6,48 @@
 
   <div class="col-12 col-lg-6">
     <h1 class="display-5 fw-bold mb-3">Explore a variety of recipes!</h1>
-    <p class="lead">
-      Share your recipes to the world while exploring those of others!
-    </p>
-
-
+      <p class="lead">
+        Share your recipes to the world while exploring those of others!
+      </p>
   </div>
 
 </div>
 
-      <!-- Categories -->
-    <section class="pb-4 pt-4" id="categories">
-    <div class="d-flex mb-2 align-items-center">
-      <h3>Categories</h3>
+<!-- Categories -->
+<section class="pb-4 pt-4" id="categories">
+  <div class="d-flex mb-2 align-items-center">
+    <h3>Categories</h3>
       <a href="/categories" class="ms-auto text-deco">View More</a>
-    </div>
+  </div>
   
-    <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4">
+  <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4">
   
-      <% if(categories != '') { %>
+    <% if(categories != '') { %>
         <% categories.forEach(category => { %>
           <div class="col text-center category__link">
             <a href="/categories/<%- category.strCategory %>" class="text-deco">
               <div class="category__img shadow">
                 <img src="<%= category.strCategoryThumb %>" alt="<%= category.strCategory %>" class="img-thumbnail">
               </div>
-              <div class="pt-1"><b><%= category.strCategory %></b></div>
+                <div class="pt-1"><b><%= category.strCategory %></b></div>
             </a>
           </div>
         <% }) %>
-      <% } %>
-    </div>
-  
+    <% } %>
+  </div>
   </section>
   
   
-  <!-- Submit Receipe -->
-  <section class="px-4 py-5 my-5 text-center">
-    <img src="/img/cookbook.jpeg" class="d-block mx-auto" alt="Publish your recipe for FREE today" width="400" height="250" loading="lazy">
+<!-- Submit Receipe -->
+<section class="px-4 py-5 my-5 text-center">
+  <img src="/img/cookbook.jpeg" class="d-block mx-auto" alt="Publish your recipe for FREE today" width="400" height="250" loading="lazy">
     <h1 class="display-5 fw-bold">Share your recipe with the world!</h1>
-    <div class="col-lg-6 mx-auto">
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <a href="/submit-recipe" class="btn btn-primary btn-dark btn-lg">Submit Recipe</a>
+      <div class="col-lg-6 mx-auto">
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a href="/submit-recipe" class="btn btn-primary btn-dark btn-lg">Submit Recipe</a>
+        </div>
       </div>
-    </div>
-  </section>
+</section>
 
 
 
