@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
 
 
 // DB
-const connectDB = require('./server/db/connectDB')
+// const connectDB = require('./server/db/connectDB')
 
 // Routes
 const recipeRoutes = require('./server/routes/recipe-routes')
@@ -79,7 +79,7 @@ app.use(notFound);
 const port = process.env.PORT || 4000
 
 const startApp = async () => {
-    await connectDB(process.env.MONGO_URI)
+    // await connectDB(process.env.MONGO_URI)
     app.listen(port, ()=>console.log(`App is listening on port ${port}`))
 }
 
