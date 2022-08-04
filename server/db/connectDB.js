@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const mongoose = require('mongoose');
 
 // Fire off the connection to Mongo DB
@@ -15,4 +17,4 @@ mongoose.connection.on("error", (err) => {
   console.log("Could not connect to MongoDB!", err);
 });
 
-module.exports = connectDB
+module.exports = mongoose
