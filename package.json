@@ -29,6 +29,7 @@
     "express-async-errors": "^3.1.1",
     "express-ejs-layouts": "^2.5.1",
     "express-fileupload": "^1.4.0",
+    "express-flash": "^0.0.2",
     "express-rate-limit": "^6.5.1",
     "express-session": "^1.17.3",
     "helmet": "^5.1.1",

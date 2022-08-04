@@ -20,8 +20,12 @@ const loginUser = (passport) => {
 }
 
 const logoutUser = (req, res) => {
-    req.logout()
-    res.redirect('/')
+    console.log('here')
+    req.logOut(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+      })
+    // res.redirect('/')
 }
 
 const googleSignin = (passport) => {

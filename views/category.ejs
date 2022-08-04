@@ -26,10 +26,10 @@
   <div class="col-md-4">
   <% if(categoryMeals != '') { %>
     <% categoryMeals.forEach(meal => { %>
-      <p><div class="col-md-4 text-center category__link"></p>
+      <div class="col-md-4 text-center category__link">
         <a href="/categories/<%= catInfo.strCategory %>/<%= meal.idMeal %>" class="text-deco">
           <div class="category__img shadow" style="height: 150px;">
-            <img src="<%= meal.strMealThumb %>" alt="<%= meal.strMeal %>">
+            <img src="<%= meal.strMealThumb %>" alt="<%= meal.strMeal %>" class="img-thumbnail">
           </div>
           <div class="pt-1"><b><%= meal.strMeal %></b></div>
         </a>

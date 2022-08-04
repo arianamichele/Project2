@@ -69,7 +69,7 @@ const getMeal = async (req, res) => {
       Instruction: mealReq.strInstructions,
       MealImage: mealReq.strMealThumb,
       Youtube: mealReq.strYoutube,
-        Ingredients: strIngredient
+      Ingredients: strIngredient
     };
   res.render('meal', {title: "Meals", meal});
 };
